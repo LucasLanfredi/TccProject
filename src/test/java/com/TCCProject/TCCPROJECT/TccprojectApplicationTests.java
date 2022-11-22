@@ -10,4 +10,19 @@ class TccprojectApplicationTests {
 	void contextLoads() {
 	}
 
+	@Test
+	void testeUsuario() {
+
+	}
+
+	@Test
+	void criarAtividade() {
+
+	}
+
+	@Test
+	void realizarAtividade(){
+
+	}
+
 }

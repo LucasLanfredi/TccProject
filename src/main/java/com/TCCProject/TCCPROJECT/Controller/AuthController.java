@@ -8,10 +8,13 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 
 import com.TCCProject.TCCPROJECT.Config.*;
+import com.TCCProject.TCCPROJECT.DTO.SignupRequest;
+import com.TCCProject.TCCPROJECT.Entities.ResponsavelAndCrianca;
 import com.TCCProject.TCCPROJECT.Entities.Role;
 import com.TCCProject.TCCPROJECT.Entities.User;
 import com.TCCProject.TCCPROJECT.Models.ERole;
 import com.TCCProject.TCCPROJECT.Models.EUserType;
+import com.TCCProject.TCCPROJECT.Repositories.ResponsavelAndCriancaRepository;
 import com.TCCProject.TCCPROJECT.Repositories.RoleRepository;
 import com.TCCProject.TCCPROJECT.Repositories.UserRepository;
 import com.TCCProject.TCCPROJECT.Services.UserDetailsImpl;
@@ -38,6 +41,9 @@ public class AuthController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    ResponsavelAndCriancaRepository responsabilidadeRepository;
 
     @Autowired
     RoleRepository roleRepository;
@@ -140,7 +146,6 @@ public class AuthController {
                     .body(new MessageResponse("Error: Email ja foi cadastrado!"));
         }
 
-        // Create new user's account
         User user = new User(signUpRequest.getFirstName(),
                 signUpRequest.getLastName(),
                 signUpRequest.getUsername(),
@@ -154,26 +159,26 @@ public class AuthController {
 
         if (strRoles == null) {
             Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                    .orElseThrow(() -> new RuntimeException("Error: Role nao encontrada."));
             roles.add(userRole);
         } else {
             strRoles.forEach(role -> {
                 switch (role) {
                     case "admin":
                         Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                                .orElseThrow(() -> new RuntimeException("Error: Role nao encontrada."));
                         roles.add(adminRole);
 
                         break;
                     case "mod":
                         Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                                .orElseThrow(() -> new RuntimeException("Error: Role nao encontrada."));
                         roles.add(modRole);
 
                         break;
                     case"":
                         Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                                .orElseThrow(() -> new RuntimeException("Error: Role nao encontrada."));
                         roles.add(userRole);
                 }
             });
@@ -182,6 +187,9 @@ public class AuthController {
         user.setRoles(roles);
         userRepository.save(user);
 
-        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+        ResponsavelAndCrianca responsabilidade = new ResponsavelAndCrianca(user.getId(), signUpRequest.getIdResponsavel());
+        responsabilidadeRepository.save(responsabilidade);
+
+        return ResponseEntity.ok(new MessageResponse("Criança registrada com sucesso!"));
     }
 }

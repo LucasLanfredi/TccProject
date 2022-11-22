@@ -1,4 +1,4 @@
-package com.TCCProject.TCCPROJECT.Config;
+package com.TCCProject.TCCPROJECT.DTO;
 
 import lombok.Data;
 
@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
 public class SignupRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @NotBlank
     @Size(max = 20)
@@ -43,9 +43,6 @@ public class SignupRequest {
 
     @Size(max = 360)
     private String descricao;
-
-    @NotBlank
-    private String userType;
 
     private Set<String> role;
 

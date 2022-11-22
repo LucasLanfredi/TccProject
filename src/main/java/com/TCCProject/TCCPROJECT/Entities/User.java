@@ -1,7 +1,6 @@
 package com.TCCProject.TCCPROJECT.Entities;
 
 import com.TCCProject.TCCPROJECT.Models.EUserType;
-import lombok.Data;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -12,7 +11,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-@Data
 @Entity
 @Table(	name = "users",
         uniqueConstraints = {
@@ -58,7 +56,7 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
-    @JoinTable(	name = "user_user_type",
+    @JoinTable(	name = "user_type",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "user_type_id"))
     private EUserType EUserType;
@@ -89,4 +87,83 @@ public class User {
         this.EUserType = EUserType;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Date getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(Date dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public EUserType getEUserType() {
+        return EUserType;
+    }
+
+    public void setEUserType(EUserType EUserType) {
+        this.EUserType = EUserType;
+    }
 }
