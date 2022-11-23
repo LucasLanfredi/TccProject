@@ -1,6 +1,9 @@
 package com.TCCProject.TCCPROJECT.Entities;
 
 
+import com.TCCProject.TCCPROJECT.Models.EStatusAtividade;
+import com.TCCProject.TCCPROJECT.Models.EStatusRecompensa;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
@@ -24,13 +27,18 @@ public class CriancaRecompensa {
     @Column(name = "pode_resgatar")
     private Boolean podeResgatar;
 
+    @Enumerated(EnumType.STRING)
+    @JoinColumn(name = "recompensa_status")
+    private EStatusRecompensa statusRecompensa;
+
     public CriancaRecompensa() {
     }
 
-    public CriancaRecompensa(Long criancaID, Long recompensaID, Boolean podeResgatar) {
+    public CriancaRecompensa(Long criancaID, Long recompensaID, Boolean podeResgatar, EStatusRecompensa statusRecompensa) {
         this.criancaID = criancaID;
         this.recompensaID = recompensaID;
         this.podeResgatar  = podeResgatar;
+        this.statusRecompensa = statusRecompensa;
     }
 
     public Long getId() {
@@ -51,4 +59,11 @@ public class CriancaRecompensa {
         this.podeResgatar = podeResgatar;
     }
 
+    public EStatusRecompensa getStatusRecompensa() {
+        return statusRecompensa;
+    }
+
+    public void setStatusRecompensa(EStatusAtividade statusAtividade) {
+        this.statusRecompensa = statusRecompensa;
+    }
 }

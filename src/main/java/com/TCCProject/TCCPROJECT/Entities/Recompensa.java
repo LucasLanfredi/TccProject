@@ -35,19 +35,14 @@ public class Recompensa {
     @NotBlank
     private Long responsavelID;
 
-    @Enumerated(EnumType.STRING)
-    @JoinColumn(name = "recompensa_status")
-    private EStatusRecompensa statusRecompensa;
-
     public Recompensa(){
     }
 
-    public Recompensa(String nomeRecompensa, String descricaoRecompensa, Long pontuacaoRecompensa, Long responsavelID, EStatusRecompensa statusRecompensa) {
+    public Recompensa(String nomeRecompensa, String descricaoRecompensa, Long pontuacaoRecompensa, Long responsavelID) {
         this.nomeRecompensa = nomeRecompensa;
         this.descricaoRecompensa = descricaoRecompensa;
         this.pontuacaoRecompensa  = pontuacaoRecompensa;
         this.responsavelID = responsavelID;
-        this.statusRecompensa = statusRecompensa;
     }
 
     public long getId() {
@@ -86,11 +81,4 @@ public class Recompensa {
         this.responsavelID = responsavelID;
     }
 
-    public EStatusRecompensa getStatusRecompensa() {
-        return statusRecompensa;
-    }
-
-    public void setStatusRecompensa(EStatusAtividade statusAtividade) {
-        this.statusRecompensa = statusRecompensa;
-    }
 }
