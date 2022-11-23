@@ -1,6 +1,7 @@
 package com.TCCProject.TCCPROJECT.DTO;
 
 import com.TCCProject.TCCPROJECT.Entities.User;
+import com.TCCProject.TCCPROJECT.Models.EStatusAtividade;
 import lombok.Data;
 
 import java.util.Date;
@@ -19,6 +20,8 @@ public class AtividadeDTO {
     private int valorPontos;
 
     private boolean necessarioValidar;
+
+    private EStatusAtividade statusAtividade;
 
     private List<Long> criancas;
 
@@ -75,6 +78,14 @@ public class AtividadeDTO {
 
     public List<Long> getCriancas() {
         return criancas;
+    }
+
+    public EStatusAtividade getStatusAtividade() {
+        return statusAtividade;
+    }
+
+    public void setStatusAtividade(EStatusAtividade statusAtividade) {
+        this.statusAtividade = statusAtividade;
     }
 
     public void setCriancas(List<Long> criancas) {

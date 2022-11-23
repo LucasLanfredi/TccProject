@@ -1,6 +1,8 @@
 package com.TCCProject.TCCPROJECT.Entities;
 
 
+import com.TCCProject.TCCPROJECT.Models.EStatusAtividade;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
@@ -20,12 +22,18 @@ public class CriancaAtividade {
     @Column(name = "fk_atividade_ID")
     private Long atividadeID;
 
+    @Enumerated(EnumType.STRING)
+    @JoinColumn(name = "atividade_status")
+    private EStatusAtividade statusAtividade;
+
     public CriancaAtividade() {
+        super();
     }
 
-    public CriancaAtividade(Long criancaID, Long atividadeID) {
+    public CriancaAtividade(Long criancaID, Long atividadeID, EStatusAtividade statusAtividade) {
         this.criancaID = criancaID;
         this.atividadeID = atividadeID;
+        this.statusAtividade = statusAtividade;
     }
 
     public Long getId() {
@@ -34,6 +42,22 @@ public class CriancaAtividade {
 
     public Long getCriancaID() {
         return criancaID;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setCriancaID(Long criancaID) {
+        this.criancaID = criancaID;
+    }
+
+    public void setAtividadeID(Long atividadeID) {
+        this.atividadeID = atividadeID;
+    }
+
+    public void setStatusAtividade(EStatusAtividade statusAtividade) {
+        this.statusAtividade = statusAtividade;
     }
 
     public Long getAtividadeID() {

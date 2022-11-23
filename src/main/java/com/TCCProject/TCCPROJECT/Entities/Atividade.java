@@ -41,22 +41,17 @@ public class Atividade {
     @NotBlank
     private Long responsavelID;
 
-    @Enumerated(EnumType.STRING)
-    @JoinColumn(name = "atividade_status")
-    private EStatusAtividade statusAtividade;
-
     public Atividade(){
     }
 
     public Atividade(String nomeAtividade, String descricaoAtividade, Date dataAtividade, int valorPontos, boolean necessarioValidar,
-                     Long responsavelID, EStatusAtividade statusAtividade) {
+                     Long responsavelID) {
         this.nomeAtividade = nomeAtividade;
         this.descricaoAtividade = descricaoAtividade;
         this.dataAtividade = dataAtividade;
         this.valorPontos = valorPontos;
         this.necessarioValidar = necessarioValidar;
         this.responsavelID = responsavelID;
-        this.statusAtividade = statusAtividade;
     }
 
     public long getId() {
@@ -114,13 +109,4 @@ public class Atividade {
     public void setResponsavelID(Long responsavelID) {
         this.responsavelID = responsavelID;
     }
-
-    public EStatusAtividade getStatusAtividade() {
-        return statusAtividade;
-    }
-
-    public void setStatusAtividade(EStatusAtividade statusAtividade) {
-        this.statusAtividade = statusAtividade;
-    }
 }
-sa
