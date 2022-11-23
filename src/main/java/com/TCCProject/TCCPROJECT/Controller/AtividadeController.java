@@ -37,6 +37,7 @@ public class AtividadeController {
     @Autowired
     List<Atividade> listaAtividades;
 
+    @Autowired
     List<CriancaAtividade> listaDeAtividadesAfetadas;
 
 

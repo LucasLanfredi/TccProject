@@ -1,11 +1,9 @@
 package com.TCCProject.TCCPROJECT.Repositories;
 
-import com.TCCProject.TCCPROJECT.Entities.Atividade;
 import com.TCCProject.TCCPROJECT.Entities.CriancaAtividade;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import javax.persistence.EnumType;
 import java.util.List;
 import java.util.Optional;
 
