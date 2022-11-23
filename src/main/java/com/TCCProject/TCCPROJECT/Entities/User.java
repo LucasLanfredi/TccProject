@@ -4,6 +4,7 @@ import com.TCCProject.TCCPROJECT.Models.EUserType;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -24,14 +25,15 @@ public class User {
 
     @NotBlank
     @Size(max = 20)
+    @Column(name = "first_name")
     private String firstName;
 
     @NotBlank
-    @Size(max = 30)
+    @Column(name = "last_name")
     private String lastName;
 
     @NotBlank
-    @Size(max = 20)
+    @Column(name = "username")
     private String username;
 
     @NotBlank
@@ -44,7 +46,12 @@ public class User {
     private String password;
 
     @NotBlank
+    @Column(name = "data_nascimento")
     private Date dataNascimento;
+
+    @NotBlank
+    @Column(name = "pontuacao_user")
+    private int pontuacaoUser;
 
     @Size(max = 120)
     private String descricao;
@@ -65,21 +72,24 @@ public class User {
         super();
     }
 
-    public User(String firstName, String lastName, String username, String password, Date dataNascimento, EUserType EUserType) {
+    public User(String firstName, String lastName, int pontuacaoUser, String username, String password, Date dataNascimento,
+                EUserType EUserType) {
         super();
         this.firstName = firstName;
         this.lastName = lastName;
+        this.pontuacaoUser = pontuacaoUser;
         this.username = username;
         this.password = password;
         this.dataNascimento = dataNascimento;
         this.EUserType = EUserType;
     }
 
-    public User(String firstName, String lastName, String username, String email, String password, Date dataNascimento,
-                EUserType EUserType) {
+    public User(String firstName, String lastName, int pontuacaoUser, String username, String email, String password,
+                Date dataNascimento, EUserType EUserType) {
         super();
         this.firstName = firstName;
         this.lastName = lastName;
+        this.pontuacaoUser = pontuacaoUser;
         this.username = username;
         this.email = email;
         this.password = password;
@@ -165,5 +175,21 @@ public class User {
 
     public void setEUserType(EUserType EUserType) {
         this.EUserType = EUserType;
+    }
+
+    public int getPontuacaoUser() {
+        return pontuacaoUser;
+    }
+
+    public void setPontuacaoUser(int pontuacaoUser) {
+        this.pontuacaoUser = pontuacaoUser;
+    }
+
+    public void setNewPontuacaoUser(Atividade atividadePontuacao) {
+        this.pontuacaoUser = this.pontuacaoUser + atividadePontuacao.getValorPontos();
+    }
+
+    public void setNewPontuacaoUser(Recompensa recompensaCusto) {
+        this.pontuacaoUser = this.pontuacaoUser - recompensaCusto.getPontuacaoRecompensa();
     }
 }

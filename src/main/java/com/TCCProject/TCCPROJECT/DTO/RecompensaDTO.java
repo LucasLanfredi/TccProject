@@ -11,7 +11,7 @@ public class RecompensaDTO {
 
     private String descricaoRecompensa;
 
-    private Long pontuacaoRecompensa;
+    private int pontuacaoRecompensa;
 
     private List<Long> criancas;
 
@@ -42,11 +42,11 @@ public class RecompensaDTO {
         this.descricaoRecompensa = descricaoRecompensa;
     }
 
-    public Long getPontuacaoRecompensa() {
+    public int getPontuacaoRecompensa() {
         return pontuacaoRecompensa;
     }
 
-    public void setPontuacaoRecompensa(Long pontuacaoRecompensa) {
+    public void setPontuacaoRecompensa(int pontuacaoRecompensa) {
         this.pontuacaoRecompensa = pontuacaoRecompensa;
     }
     public List<Long> getCriancas() {

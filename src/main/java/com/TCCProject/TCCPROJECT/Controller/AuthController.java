@@ -54,6 +54,8 @@ public class AuthController {
     @Autowired
     JwtUtils jwtUtils;
 
+    int pontuacaoBase = 0;
+
     @PostMapping("/signin/adulto")
     public ResponseEntity<?> authenticateUserAdulto(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -90,6 +92,7 @@ public class AuthController {
 
         User user = new User(signUpRequest.getFirstName(),
                 signUpRequest.getLastName(),
+                pontuacaoBase,
                 signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()),
@@ -148,6 +151,7 @@ public class AuthController {
 
         User user = new User(signUpRequest.getFirstName(),
                 signUpRequest.getLastName(),
+                pontuacaoBase,
                 signUpRequest.getUsername(),
                 encoder.encode(signUpRequest.getPassword()),
                 signUpRequest.getDataNascimento(),

@@ -60,6 +60,10 @@ public class CriancaAtividade {
         this.statusAtividade = statusAtividade;
     }
 
+    public EStatusAtividade getStatusAtividade() {
+        return statusAtividade;
+    }
+
     public Long getAtividadeID() {
         return atividadeID;
     }

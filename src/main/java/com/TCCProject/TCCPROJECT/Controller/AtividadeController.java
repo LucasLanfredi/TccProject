@@ -6,6 +6,7 @@ import com.TCCProject.TCCPROJECT.DTO.UserDTO;
 import com.TCCProject.TCCPROJECT.Entities.Atividade;
 import com.TCCProject.TCCPROJECT.Entities.CriancaAtividade;
 import com.TCCProject.TCCPROJECT.Entities.User;
+import com.TCCProject.TCCPROJECT.Models.EStatusAtividade;
 import com.TCCProject.TCCPROJECT.Repositories.AtividadeRepository;
 import com.TCCProject.TCCPROJECT.Repositories.CriancaAtividadeRepository;
 import com.TCCProject.TCCPROJECT.Repositories.UserRepository;
@@ -132,5 +133,22 @@ public class AtividadeController {
                 .orElseThrow(() -> new ArrayStoreException("Nao foi encontrada atividades"));
 
         return ResponseEntity.ok(listaAtividadesAdulto);
+    }
+
+    @PostMapping(name = "/realizarAtividade")
+    public ResponseEntity<?> realizarAtividade(@NotNull UserDTO userDTO, @NotNull AtividadeDTO atividadeDTO){
+        User user = userRepository.findByUsername(userDTO.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + userDTO.getUsername()));
+
+        Atividade atividadeRealizada = atividadesRepository.findById(atividadeDTO.getId())
+                .orElseThrow(() -> new RuntimeException("Nao foi possivel encontrar a atividade"));
+
+        criancaAtividadeRepository.updateStatusByCriancaAndAtividadeId(EStatusAtividade.REALIZADA.toString(),atividadeRealizada.getId(),
+                    user.getId());
+
+        user.setNewPontuacaoUser(atividadeRealizada);
+        userRepository.save(user);
+
+        return ResponseEntity.ok(new MessageResponse("Parabens, tarefa foi concluida"));
     }
 }

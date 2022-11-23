@@ -14,7 +14,7 @@ public class Recompensa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @NotBlank
     @Size(max = 80)
@@ -29,7 +29,7 @@ public class Recompensa {
     @NotBlank
     @Size(max = 240)
     @Column(name = "pontuacao_recompensa")
-    private Long pontuacaoRecompensa;
+    private int pontuacaoRecompensa;
 
     @JoinColumn(name= "fk_responsavel_id")
     @NotBlank
@@ -38,18 +38,19 @@ public class Recompensa {
     public Recompensa(){
     }
 
-    public Recompensa(String nomeRecompensa, String descricaoRecompensa, Long pontuacaoRecompensa, Long responsavelID) {
+    public Recompensa(String nomeRecompensa, String descricaoRecompensa, int pontuacaoRecompensa,
+                      Long responsavelID) {
         this.nomeRecompensa = nomeRecompensa;
         this.descricaoRecompensa = descricaoRecompensa;
         this.pontuacaoRecompensa  = pontuacaoRecompensa;
         this.responsavelID = responsavelID;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -57,7 +58,7 @@ public class Recompensa {
         return nomeRecompensa;
     }
 
-    public void setNomeRecompensa(String nomeAtividade) {
+    public void setNomeRecompensa(String nomeRecompensa) {
         this.nomeRecompensa = nomeRecompensa;
     }
 
@@ -69,9 +70,13 @@ public class Recompensa {
         this.descricaoRecompensa = descricaoRecompensa;
     }
 
-    public Long getPontuacaoRecompensa() {return  pontuacaoRecompensa; }
+    public int getPontuacaoRecompensa() {
+        return pontuacaoRecompensa;
+    }
 
-    public void setPontuacaoRecompensa() { this.pontuacaoRecompensa = pontuacaoRecompensa; }
+    public void setPontuacaoRecompensa(int pontuacaoRecompensa) {
+        this.pontuacaoRecompensa = pontuacaoRecompensa;
+    }
 
     public Long getResponsavelID() {
         return responsavelID;
@@ -80,5 +85,4 @@ public class Recompensa {
     public void setResponsavelID(Long responsavelID) {
         this.responsavelID = responsavelID;
     }
-
 }
