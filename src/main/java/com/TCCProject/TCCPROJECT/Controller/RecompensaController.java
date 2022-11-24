@@ -45,14 +45,14 @@ public class RecompensaController {
         for(Long criancaID : RecompensaDTO.getCriancas()){
             User Crianca = userRepository.findById(criancaID)
                     .orElseThrow(() -> new UsernameNotFoundException("Usuario nao Encontrado. ID: " + criancaID));
-            criancaRecompensaRepository.save(new CriancaRecompensa(Crianca.getId(), recompensaID, false, EStatusRecompensa.INDISPONIVEL));
+            criancaRecompensaRepository.save(new CriancaRecompensa(Crianca.getId(), recompensaID, EStatusRecompensa.DISPONIVEL));
         }
         return ResponseEntity.ok(new MessageResponse("Recompensa cadastrada com sucesso"));
     }
 
     @PostMapping(name = "/deletarRecompensa")
     public ResponseEntity<?> deletarRecompensa (@NotNull UserDTO userDTO, @NotNull RecompensaDTO recompensaDTO){
-        User adulto = userRepository.findByUsername(userDTO.getUsername())
+        userRepository.findByUsername(userDTO.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario Responsavel nao Encontrado: " + userDTO.getUsername()));
 
         Recompensa recompensaExcluida = recompensaRepository.findById(recompensaDTO.getId())

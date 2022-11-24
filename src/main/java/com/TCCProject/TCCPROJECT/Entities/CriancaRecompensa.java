@@ -23,10 +23,6 @@ public class CriancaRecompensa {
     @Column(name = "fk_recompensa_ID")
     private Long recompensaID;
 
-    @NotBlank
-    @Column(name = "pode_resgatar")
-    private Boolean podeResgatar;
-
     @Enumerated(EnumType.STRING)
     @JoinColumn(name = "recompensa_status")
     private EStatusRecompensa statusRecompensa;
@@ -34,10 +30,9 @@ public class CriancaRecompensa {
     public CriancaRecompensa() {
     }
 
-    public CriancaRecompensa(Long criancaID, Long recompensaID, Boolean podeResgatar, EStatusRecompensa statusRecompensa) {
+    public CriancaRecompensa(Long criancaID, Long recompensaID, EStatusRecompensa statusRecompensa) {
         this.criancaID = criancaID;
         this.recompensaID = recompensaID;
-        this.podeResgatar  = podeResgatar;
         this.statusRecompensa = statusRecompensa;
     }
 
@@ -45,25 +40,31 @@ public class CriancaRecompensa {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Long getCriancaID() {
         return criancaID;
+    }
+
+    public void setCriancaID(Long criancaID) {
+        this.criancaID = criancaID;
     }
 
     public Long getRecompensaID() {
         return recompensaID;
     }
 
-    public Boolean getPodeResgatar() {return podeResgatar; }
-
-    public void setPodeResgatar(Boolean podeResgatar) {
-        this.podeResgatar = podeResgatar;
+    public void setRecompensaID(Long recompensaID) {
+        this.recompensaID = recompensaID;
     }
 
     public EStatusRecompensa getStatusRecompensa() {
         return statusRecompensa;
     }
 
-    public void setStatusRecompensa(EStatusAtividade statusAtividade) {
+    public void setStatusRecompensa(EStatusRecompensa statusRecompensa) {
         this.statusRecompensa = statusRecompensa;
     }
 }
