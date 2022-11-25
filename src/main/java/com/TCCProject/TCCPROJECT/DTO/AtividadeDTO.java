@@ -80,13 +80,7 @@ public class AtividadeDTO {
         return criancas;
     }
 
-    public EStatusAtividade getStatusAtividade() {
-        return statusAtividade;
-    }
-
-    public void setStatusAtividade(EStatusAtividade statusAtividade) {
-        this.statusAtividade = statusAtividade;
-    }
+s
 
     public void setCriancas(List<Long> criancas) {
         this.criancas = criancas;

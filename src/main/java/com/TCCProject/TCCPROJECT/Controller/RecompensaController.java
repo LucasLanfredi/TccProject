@@ -80,6 +80,11 @@ public class RecompensaController {
         recompensaEditada.setDescricaoRecompensa(recompensaDTO.getDescricaoRecompensa());
         recompensaEditada.setPontuacaoRecompensa(recompensaDTO.getPontuacaoRecompensa());
 
+        for (Long criancaID: recompensaDTO.getCriancas()) {
+            criancaRecompensaRepository.updateStatusByCriancaAndRecompensaId(CriancaRecompensa.getStatusRecompensa().toString(),
+                    criancaID, recompensaEditada.getId());
+        }
+
         recompensaRepository.save(recompensaEditada);
 
         return ResponseEntity.ok(new MessageResponse("Recompensa editada com sucesso"));
