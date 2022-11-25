@@ -14,4 +14,7 @@ public interface CriancaRecompensaRepository extends JpaRepository<CriancaRecomp
 
     @Query("SELECT id FROM crianca_recompensa WHERE fk_recompensa_id = ?1")
     Optional<List<Long>> findRelacionamentoWithRecompensaID(Long recompensaID);
+
+    @Query("UPDATE recompensa_atividade SET recompensa_status = ?1 WHERE fk_atividade_id = ?2 AND fk_crianca_id = ?3")
+    void updateStatusByCriancaAndRecompensaId(String Status, Long recompensaId, Long criancaId);
 }

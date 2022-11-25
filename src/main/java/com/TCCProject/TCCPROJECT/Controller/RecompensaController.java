@@ -68,7 +68,39 @@ public class RecompensaController {
 
         return ResponseEntity.ok(new MessageResponse("Recompensa excluida com sucesso"));
     }
+    @PostMapping(name = "/editarRecompensa")
+    public ResponseEntity<?> editarRecompensa(@NotNull UserDTO userDTO, @NotNull RecompensaDTO recompensaDTO){
+        userRepository.findByUsername(userDTO.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + userDTO.getUsername()));
 
+        Recompensa recompensaEditada = recompensaRepository.findById(recompensaDTO.getId())
+                .orElseThrow(() -> new ArrayStoreException("Nao foi encontrada recompensas"));
+
+        recompensaEditada.setNomeRecompensa(recompensaDTO.getNomeRecompensa());
+        recompensaEditada.setDescricaoRecompensa(recompensaDTO.getDescricaoRecompensa());
+        recompensaEditada.setPontuacaoRecompensa(recompensaDTO.getPontuacaoRecompensa());
+
+        recompensaRepository.save(recompensaEditada);
+
+        return ResponseEntity.ok(new MessageResponse("Recompensa editada com sucesso"));
+    }
+
+    @PostMapping(name = "/resgatarRecompensa")
+    public ResponseEntity<?> resgatarRecompensa(@NotNull UserDTO userDTO, @NotNull RecompensaDTO recompensaDTO){
+        User user = userRepository.findByUsername(userDTO.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + userDTO.getUsername()));
+
+        Recompensa recompensaResgatada = recompensaRepository.findById(recompensaDTO.getId())
+                .orElseThrow(() -> new RuntimeException("Nao foi possivel encontrar a recompensa"));
+
+        criancaRecompensaRepository.updateStatusByCriancaAndRecompensaId(EStatusRecompensa.RESGATADA.toString(),recompensaResgatada.getId(),
+                user.getId());
+
+        user.setNewPontuacaoUser(recompensaResgatada);
+        userRepository.save(user);
+
+        return ResponseEntity.ok(new MessageResponse("Parabens, aproveite sua recompensa, voce merece"));
+    }
     @GetMapping(name = "/listarCrianca")
     public ResponseEntity<List<Recompensa>> listarRecompensasCrianca(@NotNull UserDTO userDTO){
         User user = userRepository.findByUsername(userDTO.getUsername())
