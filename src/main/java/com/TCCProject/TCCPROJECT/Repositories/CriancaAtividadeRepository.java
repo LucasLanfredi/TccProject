@@ -20,4 +20,5 @@ public interface CriancaAtividadeRepository extends JpaRepository<CriancaAtivida
 
     @Query("UPDATE crianca_atividade SET atividade_status = ?1 WHERE fk_atividade_id = ?2 AND fk_crianca_id = ?3")
     void updateStatusByCriancaAndAtividadeId(String Status, Long atividadeId, Long criancaId);
+
 }

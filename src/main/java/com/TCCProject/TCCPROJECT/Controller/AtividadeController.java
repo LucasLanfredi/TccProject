@@ -38,7 +38,7 @@ public class AtividadeController {
     List<Atividade> listaAtividades;
 
     @Autowired
-    List<CriancaAtividade> listaDeAtividadesAfetadas;
+    List<Integer> listaDeCriancasAfetadas;
 
 
     @PostMapping(name = "/criarAtividade")
@@ -95,13 +95,9 @@ public class AtividadeController {
         atividadeEditada.setNecessarioValidar(atividadeDTO.isNecessarioValidar());
         atividadeEditada.setValorPontos(atividadeDTO.getValorPontos());
 
-//        depois vou pedir ajuda
-//        for (Long criancaID: atividadeDTO.getCriancas()) {
-//            listaDeAtividadesAfetadas.forEach(listaDeAtividadesAfetadas.add());
-//        }
-
-        for (CriancaAtividade criancaAtividade: listaDeAtividadesAfetadas) {
-            criancaAtividade.setStatusAtividade(atividadeDTO.getStatusAtividade());
+        for (Long criancaID: atividadeDTO.getCriancas()) {
+            criancaAtividadeRepository.updateStatusByCriancaAndAtividadeId(atividadeDTO.getStatusAtividade().toString(),
+                    criancaID, atividadeEditada.getId());
         }
 
         atividadesRepository.save(atividadeEditada);
