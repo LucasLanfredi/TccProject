@@ -13,19 +13,19 @@ public class ResponsavelAndCrianca {
 
     @NotBlank
     @Column(name = "fk_responsavel_ID")
-    private Long responsavelID;
+    private Long responsavelId;
 
     @NotBlank
     @Column(name = "fk_crianca_ID")
-    private Long criancaID;
+    private Long criancaId;
 
     public ResponsavelAndCrianca() {
     }
 
-    public ResponsavelAndCrianca(Long responsavelID, Long criancaID){
+    public ResponsavelAndCrianca(Long responsavelId, Long criancaId){
         super();
-        this.responsavelID = responsavelID;
-        this.criancaID = criancaID;
+        this.responsavelId = responsavelId;
+        this.criancaId = criancaId;
     }
 
     public Long getId() {
@@ -36,19 +36,19 @@ public class ResponsavelAndCrianca {
         this.id = id;
     }
 
-    public Long getResponsavelID() {
-        return responsavelID;
+    public Long getResponsavelId() {
+        return responsavelId;
     }
 
-    public void setResponsavelID(Long responsavelID) {
-        this.responsavelID = responsavelID;
+    public void setResponsavelId(Long responsavelId) {
+        this.responsavelId = responsavelId;
     }
 
-    public Long getCriancaID() {
-        return criancaID;
+    public Long getCriancaId() {
+        return criancaId;
     }
 
-    public void setCriancaID(Long criancaID) {
-        this.criancaID = criancaID;
+    public void setCriancaId(Long criancaId) {
+        this.criancaId = criancaId;
     }
 }

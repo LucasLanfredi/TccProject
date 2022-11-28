@@ -1,4 +1,4 @@
-package com.TCCProject.TCCPROJECT.Controller;
+package com.TCCProject.TCCPROJECT.Recompensa;
 
 import com.TCCProject.TCCPROJECT.Config.MessageResponse;
 import com.TCCProject.TCCPROJECT.DTO.RecompensaDTO;
@@ -6,19 +6,17 @@ import com.TCCProject.TCCPROJECT.DTO.UserDTO;
 import com.TCCProject.TCCPROJECT.Entities.*;
 import com.TCCProject.TCCPROJECT.Models.EStatusRecompensa;
 import com.TCCProject.TCCPROJECT.Repositories.*;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
-
-import static com.TCCProject.TCCPROJECT.Models.EStatusAtividade.ATIVA;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/recompensas")
+@RequestMapping("/recompensa")
 public class RecompensaController {
 
     @Autowired
@@ -30,7 +28,7 @@ public class RecompensaController {
     @Autowired
     UserRepository userRepository;
 
-    @PostMapping(name = "/criarRecompensa")
+    @PostMapping("/criarRecompensa")
     public ResponseEntity<?> criarRecompensa (@NotNull UserDTO userDTO, @NotNull RecompensaDTO RecompensaDTO){
         User adulto = userRepository.findByUsername(userDTO.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario Responsavel nao Encontrado " + userDTO.getUsername()));
@@ -50,7 +48,7 @@ public class RecompensaController {
         return ResponseEntity.ok(new MessageResponse("Recompensa cadastrada com sucesso"));
     }
 
-    @PostMapping(name = "/deletarRecompensa")
+    @PostMapping("/deletarRecompensa")
     public ResponseEntity<?> deletarRecompensa (@NotNull UserDTO userDTO, @NotNull RecompensaDTO recompensaDTO){
         userRepository.findByUsername(userDTO.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario Responsavel nao Encontrado: " + userDTO.getUsername()));
@@ -59,7 +57,7 @@ public class RecompensaController {
                 .orElseThrow(() -> new ArrayStoreException("Nao foi encontrada a recompensa: " + recompensaDTO.getNomeRecompensa()));
 
         recompensaRepository.deleteById(recompensaDTO.getId());
-        List<Long> listaDeRecompensas = criancaRecompensaRepository.findRelacionamentoWithRecompensaID(recompensaExcluida.getId())
+        List<Long> listaDeRecompensas = criancaRecompensaRepository.findByRecompensaId(recompensaExcluida.getId())
                 .orElseThrow(() -> new ArrayStoreException("Nao foi encontrada a recompensa: " + recompensaDTO.getNomeRecompensa()));;
 
         for(Long recompensaID : listaDeRecompensas){
@@ -69,12 +67,12 @@ public class RecompensaController {
         return ResponseEntity.ok(new MessageResponse("Recompensa excluida com sucesso"));
     }
 
-    @GetMapping(name = "/listarCrianca")
+    @GetMapping("/listarCrianca")
     public ResponseEntity<List<Recompensa>> listarRecompensasCrianca(@NotNull UserDTO userDTO){
         User user = userRepository.findByUsername(userDTO.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + userDTO.getUsername()));
 
-        List<Long> listaRecompensasIDs = criancaRecompensaRepository.findRecompensaIDByCriancaID(user.getId())
+        List<Long> listaRecompensasIDs = criancaRecompensaRepository.findByCriancaId(user.getId())
                 .orElseThrow(() -> new ArrayStoreException("Nao foi encontrada recompensas"));
 
         List<Recompensa> listaRecompensas = null;
@@ -86,12 +84,12 @@ public class RecompensaController {
         return ResponseEntity.ok(listaRecompensas);
     }
 
-    @GetMapping(name = "/listarAdulto")
+    @GetMapping("/listarAdulto")
     public ResponseEntity<List<Recompensa>> listarRecompensasAdulto(@NotNull UserDTO userDTO){
         User user = userRepository.findByUsername(userDTO.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + userDTO.getUsername()));
 
-        List<Recompensa> listaRecompensas = recompensaRepository.findByAdultoID(user.getId())
+        List<Recompensa> listaRecompensas = recompensaRepository.findByResponsavelId(user.getId())
                 .orElseThrow(() -> new ArrayStoreException("Nao foi encontrada recompensas"));
 
         return ResponseEntity.ok(listaRecompensas);
