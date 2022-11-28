@@ -12,11 +12,11 @@ public class ResponsavelAndCrianca {
     private Long id;
 
     @NotBlank
-    @Column(name = "fk_responsavel_ID")
+    @Column(name = "fk_responsavel_Id")
     private Long responsavelID;
 
     @NotBlank
-    @Column(name = "fk_crianca_ID")
+    @Column(name = "fk_crianca_Id")
     private Long criancaID;
 
     public ResponsavelAndCrianca() {

@@ -14,7 +14,6 @@ import com.TCCProject.TCCPROJECT.Entities.Role;
 import com.TCCProject.TCCPROJECT.Entities.User;
 import com.TCCProject.TCCPROJECT.Models.ERole;
 import com.TCCProject.TCCPROJECT.Models.EUserType;
-import com.TCCProject.TCCPROJECT.Repositories.ResponsavelAndCriancaRepository;
 import com.TCCProject.TCCPROJECT.Repositories.RoleRepository;
 import com.TCCProject.TCCPROJECT.Repositories.UserRepository;
 import com.TCCProject.TCCPROJECT.Services.UserDetailsImpl;
@@ -41,9 +40,6 @@ public class AuthController {
 
     @Autowired
     UserRepository userRepository;
-
-    @Autowired
-    ResponsavelAndCriancaRepository responsabilidadeRepository;
 
     @Autowired
     RoleRepository roleRepository;
@@ -153,7 +149,9 @@ public class AuthController {
                 signUpRequest.getLastName(),
                 pontuacaoBase,
                 signUpRequest.getUsername(),
+                signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getIdResponsavel(),
                 signUpRequest.getDataNascimento(),
                 EUserType.USER_CRIANCA
         );
@@ -191,7 +189,7 @@ public class AuthController {
         user.setRoles(roles);
         userRepository.save(user);
 
-        ResponsavelAndCrianca responsabilidade = new ResponsavelAndCrianca(user.getId(), signUpRequest.getIdResponsavel());
+        ResponsavelAndCrianca responsabilidade = new ResponsavelAndCrianca(user.getUserId(), signUpRequest.getIdResponsavel());
         responsabilidadeRepository.save(responsabilidade);
 
         return ResponseEntity.ok(new MessageResponse("Criança registrada com sucesso!"));

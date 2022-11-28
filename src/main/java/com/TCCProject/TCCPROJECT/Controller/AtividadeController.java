@@ -4,11 +4,9 @@ import com.TCCProject.TCCPROJECT.Config.MessageResponse;
 import com.TCCProject.TCCPROJECT.DTO.AtividadeDTO;
 import com.TCCProject.TCCPROJECT.DTO.UserDTO;
 import com.TCCProject.TCCPROJECT.Entities.Atividade;
-import com.TCCProject.TCCPROJECT.Entities.CriancaAtividade;
 import com.TCCProject.TCCPROJECT.Entities.User;
 import com.TCCProject.TCCPROJECT.Models.EStatusAtividade;
 import com.TCCProject.TCCPROJECT.Repositories.AtividadeRepository;
-import com.TCCProject.TCCPROJECT.Repositories.CriancaAtividadeRepository;
 import com.TCCProject.TCCPROJECT.Repositories.UserRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +25,6 @@ public class AtividadeController {
 
     @Autowired
     AtividadeRepository atividadesRepository;
-    
-    @Autowired
-    CriancaAtividadeRepository criancaAtividadeRepository;
 
     @Autowired
     UserRepository userRepository;
@@ -51,13 +46,13 @@ public class AtividadeController {
                 atividadeDTO.getDataAtividade(),
                 atividadeDTO.getValorPontos(),
                 atividadeDTO.isNecessarioValidar(),
-                adulto.getId());
+                adulto);
         Long atividadeID = atividadesRepository.save(atividade).getId();
 
         for(Long criancaID : atividadeDTO.getCriancas()){
             User Crianca = userRepository.findById(criancaID)
                     .orElseThrow(() -> new UsernameNotFoundException("Usuario nao Encontrado. ID: " + criancaID));
-            criancaAtividadeRepository.save(new CriancaAtividade(Crianca.getId(), atividadeID, ATIVA));
+            criancaAtividadeRepository.save(new CriancaAtividade(Crianca.getUserId(), atividadeID, ATIVA));
         }
         return ResponseEntity.ok(new MessageResponse("Atividade cadastrada com sucesso"));
     }
@@ -110,7 +105,7 @@ public class AtividadeController {
         User user = userRepository.findByUsername(userDTO.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + userDTO.getUsername()));
 
-        List<Long> listaAtividadesIDs = criancaAtividadeRepository.findAtividadeIDByCriancaID(user.getId())
+        List<Long> listaAtividadesIDs = criancaAtividadeRepository.findAtividadeIDByCriancaID(user.getUserId())
                 .orElseThrow(() -> new ArrayStoreException("Nao foi encontrada atividades"));
 
         for (Long atividadeID: listaAtividadesIDs) {
@@ -126,7 +121,7 @@ public class AtividadeController {
         User user = userRepository.findByUsername(userDTO.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + userDTO.getUsername()));
 
-        List<Atividade> listaAtividadesAdulto = atividadesRepository.findByAdultoID(user.getId())
+        List<Atividade> listaAtividadesAdulto = atividadesRepository.findByAdultoID(user.getUserId())
                 .orElseThrow(() -> new ArrayStoreException("Nao foi encontrada atividades"));
 
         return ResponseEntity.ok(listaAtividadesAdulto);
@@ -141,7 +136,7 @@ public class AtividadeController {
                 .orElseThrow(() -> new RuntimeException("Nao foi possivel encontrar a atividade"));
 
         criancaAtividadeRepository.updateStatusByCriancaAndAtividadeId(EStatusAtividade.REALIZADA.toString(),atividadeRealizada.getId(),
-                    user.getId());
+                    user.getUserId());
 
         user.setNewPontuacaoUser(atividadeRealizada);
         userRepository.save(user);

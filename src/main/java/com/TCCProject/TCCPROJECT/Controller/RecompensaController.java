@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.TCCProject.TCCPROJECT.Models.EStatusAtividade.ATIVA;
-
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/recompensas")
@@ -23,29 +21,26 @@ public class RecompensaController {
 
     @Autowired
     RecompensaRepository recompensaRepository;
-    
-    @Autowired
-    CriancaRecompensaRepository criancaRecompensaRepository;
-
     @Autowired
     UserRepository userRepository;
 
     @PostMapping(name = "/criarRecompensa")
-    public ResponseEntity<?> criarRecompensa (@NotNull UserDTO userDTO, @NotNull RecompensaDTO RecompensaDTO){
+    public ResponseEntity<?> criarRecompensa (@NotNull UserDTO userDTO, @NotNull RecompensaDTO recompensaDTO){
         User adulto = userRepository.findByUsername(userDTO.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario Responsavel nao Encontrado " + userDTO.getUsername()));
 
-        Recompensa recompensa = new Recompensa(RecompensaDTO.getNomeRecompensa(),
-                RecompensaDTO.getDescricaoRecompensa(),
-                RecompensaDTO.getPontuacaoRecompensa(),
-                adulto.getId());
+        Recompensa recompensa = new Recompensa(recompensaDTO.getNomeRecompensa(),
+                recompensaDTO.getDescricaoRecompensa(),
+                recompensaDTO.getPontuacaoRecompensa(),
+                adulto
+                );
 
         Long recompensaID = recompensaRepository.save(recompensa).getId();
 
-        for(Long criancaID : RecompensaDTO.getCriancas()){
+        for(Long criancaID : recompensaDTO.getCriancas()){
             User Crianca = userRepository.findById(criancaID)
                     .orElseThrow(() -> new UsernameNotFoundException("Usuario nao Encontrado. ID: " + criancaID));
-            criancaRecompensaRepository.save(new CriancaRecompensa(Crianca.getId(), recompensaID, EStatusRecompensa.DISPONIVEL));
+            criancaRecompensaRepository.save(new CriancaRecompensa(Crianca.getUserId(), recompensaID, EStatusRecompensa.DISPONIVEL));
         }
         return ResponseEntity.ok(new MessageResponse("Recompensa cadastrada com sucesso"));
     }
@@ -74,7 +69,7 @@ public class RecompensaController {
         User user = userRepository.findByUsername(userDTO.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + userDTO.getUsername()));
 
-        List<Long> listaRecompensasIDs = criancaRecompensaRepository.findRecompensaIDByCriancaID(user.getId())
+        List<Long> listaRecompensasIDs = criancaRecompensaRepository.findRecompensaIDByCriancaID(user.getUserId())
                 .orElseThrow(() -> new ArrayStoreException("Nao foi encontrada recompensas"));
 
         List<Recompensa> listaRecompensas = null;
@@ -91,7 +86,7 @@ public class RecompensaController {
         User user = userRepository.findByUsername(userDTO.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + userDTO.getUsername()));
 
-        List<Recompensa> listaRecompensas = recompensaRepository.findByAdultoID(user.getId())
+        List<Recompensa> listaRecompensas = recompensaRepository.findByAdultoID(user.getUserId())
                 .orElseThrow(() -> new ArrayStoreException("Nao foi encontrada recompensas"));
 
         return ResponseEntity.ok(listaRecompensas);

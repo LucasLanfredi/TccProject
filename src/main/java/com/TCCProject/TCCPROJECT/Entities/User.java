@@ -4,7 +4,6 @@ import com.TCCProject.TCCPROJECT.Models.EUserType;
 
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -13,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(	name = "users",
+@Table(	name = "user",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "username"),
                 @UniqueConstraint(columnNames = "email")
@@ -21,7 +20,8 @@ import javax.validation.constraints.Size;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "userId")
+    private Long userId;
 
     @NotBlank
     @Size(max = 20)
@@ -37,7 +37,7 @@ public class User {
     private String username;
 
     @NotBlank
-    @Size(max = 50)
+    @Size(max = 80)
     @Email
     private String email;
 
@@ -56,6 +56,9 @@ public class User {
     @Size(max = 120)
     private String descricao;
 
+    @Column(name = "responsavel_id")
+    private Long responsavelId;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(	name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -63,29 +66,29 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(	name = "user_type",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "user_type_id"))
     private EUserType EUserType;
 
+    @OneToMany(mappedBy = "responsavelID", fetch = FetchType.LAZY,cascade = {CascadeType.DETACH})
+    private Set<Atividade> atividadeResponsavel;
+
+    @ManyToMany(mappedBy = "criancaId")
+    private Set<Atividade> atividadeCrianca;
+
+    @OneToMany(mappedBy = "responsavelID", fetch = FetchType.LAZY,cascade = {CascadeType.DETACH})
+    private Set<Recompensa> recompensaResponsavel;
+
+    @ManyToMany(mappedBy = "criancaId")
+    private Set<Recompensa> recompensasCrianca;
+
     public User() {
         super();
     }
 
-    public User(String firstName, String lastName, int pontuacaoUser, String username, String password, Date dataNascimento,
-                EUserType EUserType) {
-        super();
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.pontuacaoUser = pontuacaoUser;
-        this.username = username;
-        this.password = password;
-        this.dataNascimento = dataNascimento;
-        this.EUserType = EUserType;
-    }
-
-    public User(String firstName, String lastName, int pontuacaoUser, String username, String email, String password,
-                Date dataNascimento, EUserType EUserType) {
+    public User(String firstName, String lastName, int pontuacaoUser, String username, String email, String password, Date dataNascimento, EUserType EUserType) {
         super();
         this.firstName = firstName;
         this.lastName = lastName;
@@ -93,16 +96,31 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.responsavelId = responsavelId;
         this.dataNascimento = dataNascimento;
         this.EUserType = EUserType;
     }
 
-    public Long getId() {
-        return id;
+    public User(String firstName, String lastName, int pontuacaoUser, String username, String email, String password,
+                Long responsavelId, Date dataNascimento, EUserType EUserType) {
+        super();
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.pontuacaoUser = pontuacaoUser;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.responsavelId = responsavelId;
+        this.dataNascimento = dataNascimento;
+        this.EUserType = EUserType;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getFirstName() {
@@ -191,5 +209,45 @@ public class User {
 
     public void setNewPontuacaoUser(Recompensa recompensaCusto) {
         this.pontuacaoUser = this.pontuacaoUser - recompensaCusto.getPontuacaoRecompensa();
+    }
+
+    public Set<Recompensa> getRecompensaResponsavel() {
+        return recompensaResponsavel;
+    }
+
+    public void setRecompensaResponsavel(Set<Recompensa> recompensaResponsavel) {
+        this.recompensaResponsavel = recompensaResponsavel;
+    }
+
+    public Long getResponsavelId() {
+        return responsavelId;
+    }
+
+    public void setResponsavelId(Long responsavelId) {
+        this.responsavelId = responsavelId;
+    }
+
+    public Set<Atividade> getAtividadeResponsavel() {
+        return atividadeResponsavel;
+    }
+
+    public void setAtividadeResponsavel(Set<Atividade> atividadeResponsavel) {
+        this.atividadeResponsavel = atividadeResponsavel;
+    }
+
+    public Set<Atividade> getAtividadeCrianca() {
+        return atividadeCrianca;
+    }
+
+    public void setAtividadeCrianca(Set<Atividade> atividadeCrianca) {
+        this.atividadeCrianca = atividadeCrianca;
+    }
+
+    public Set<Recompensa> getRecompensasCrianca() {
+        return recompensasCrianca;
+    }
+
+    public void setRecompensasCrianca(Set<Recompensa> recompensasCrianca) {
+        this.recompensasCrianca = recompensasCrianca;
     }
 }

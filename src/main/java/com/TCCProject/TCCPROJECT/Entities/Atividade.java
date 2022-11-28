@@ -1,11 +1,10 @@
 package com.TCCProject.TCCPROJECT.Entities;
 
-import com.TCCProject.TCCPROJECT.Models.EStatusAtividade;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "atividades")
@@ -13,6 +12,7 @@ public class Atividade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "atividadeId")
     private long id;
 
     @NotBlank
@@ -37,15 +37,24 @@ public class Atividade {
     @Column(name = "necessario_validar")
     private boolean necessarioValidar;
 
-    @JoinColumn(name= "fk_responsavel_id")
-    @NotBlank
-    private Long responsavelID;
+    @ManyToOne()
+    @JoinColumn(name = "responsavel_id", referencedColumnName = "userId", nullable = false)
+    private User responsavelID;
+
+    @ManyToMany
+    @JoinTable(name = "crianca_recompensa",
+            joinColumns =
+            @JoinColumn(name = "atividade_id", referencedColumnName = "atividadeId", nullable = false),
+            inverseJoinColumns =
+            @JoinColumn(name = "crianca_id", referencedColumnName = "userId", nullable = false)
+    )
+    private Set<User> criancaId;
 
     public Atividade(){
     }
 
     public Atividade(String nomeAtividade, String descricaoAtividade, Date dataAtividade, int valorPontos, boolean necessarioValidar,
-                     Long responsavelID) {
+                     User responsavelID) {
         this.nomeAtividade = nomeAtividade;
         this.descricaoAtividade = descricaoAtividade;
         this.dataAtividade = dataAtividade;
@@ -102,11 +111,19 @@ public class Atividade {
         this.necessarioValidar = necessarioValidar;
     }
 
-    public Long getResponsavelID() {
+    public User getResponsavelID() {
         return responsavelID;
     }
 
-    public void setResponsavelID(Long responsavelID) {
+    public void setResponsavelID(User responsavelID) {
         this.responsavelID = responsavelID;
+    }
+
+    public Set<User> getCriancaId() {
+        return criancaId;
+    }
+
+    public void setCriancaId(Set<User> criancaId) {
+        this.criancaId = criancaId;
     }
 }

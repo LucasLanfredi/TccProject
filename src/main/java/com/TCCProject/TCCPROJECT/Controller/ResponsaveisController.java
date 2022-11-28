@@ -2,8 +2,6 @@ package com.TCCProject.TCCPROJECT.Controller;
 
 import com.TCCProject.TCCPROJECT.DTO.UserDTO;
 import com.TCCProject.TCCPROJECT.Entities.User;
-import com.TCCProject.TCCPROJECT.Repositories.AtividadeRepository;
-import com.TCCProject.TCCPROJECT.Repositories.ResponsavelAndCriancaRepository;
 import com.TCCProject.TCCPROJECT.Repositories.UserRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +22,6 @@ public class ResponsaveisController {
     @Autowired
     UserRepository userRepository;
 
-    @Autowired
-    ResponsavelAndCriancaRepository responsavelAndCriancaRepository;
-
     List<User> listaCriancas;
 
     @GetMapping("/listarCriancas")
@@ -35,7 +30,7 @@ public class ResponsaveisController {
         User user = userRepository.findByUsername(userDTO.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario nao encontrado " + userDTO.getUsername()));
 
-        List<Long> listaCriancaID = responsavelAndCriancaRepository.findListCriancaByResponsavelID(user.getId())
+        List<Long> listaCriancaID = responsavelAndCriancaRepository.findListCriancaByResponsavelID(user.getUserId())
                 .orElseThrow(() -> new ArrayStoreException("Nao foram encontradas as criancas"));
 
         for (Long criancaID : listaCriancaID) {

@@ -1,12 +1,9 @@
 package com.TCCProject.TCCPROJECT.Entities;
 
-import com.TCCProject.TCCPROJECT.Models.EStatusAtividade;
-import com.TCCProject.TCCPROJECT.Models.EStatusRecompensa;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "recompensa")
@@ -14,6 +11,7 @@ public class Recompensa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "recompensaId")
     private Long id;
 
     @NotBlank
@@ -31,20 +29,31 @@ public class Recompensa {
     @Column(name = "pontuacao_recompensa")
     private int pontuacaoRecompensa;
 
-    @JoinColumn(name= "fk_responsavel_id")
-    @NotBlank
-    private Long responsavelID;
+    @ManyToOne()
+    @JoinColumn(name = "responsavel_id", referencedColumnName = "userId", nullable = false)
+    private User responsavelID;
+
+    @ManyToMany
+    @JoinTable(name = "crianca_recompensa",
+    joinColumns =
+        @JoinColumn(name = "recompensa_id", referencedColumnName = "recompensaId", nullable = false),
+            inverseJoinColumns =
+                    @JoinColumn(name = "crianca_id", referencedColumnName = "userId", nullable = false)
+    )
+    private Set<User> criancaId;
 
     public Recompensa(){
     }
 
     public Recompensa(String nomeRecompensa, String descricaoRecompensa, int pontuacaoRecompensa,
-                      Long responsavelID) {
+                      User responsavelID) {
         this.nomeRecompensa = nomeRecompensa;
         this.descricaoRecompensa = descricaoRecompensa;
         this.pontuacaoRecompensa  = pontuacaoRecompensa;
         this.responsavelID = responsavelID;
     }
+
+
 
     public Long getId() {
         return id;
@@ -78,11 +87,21 @@ public class Recompensa {
         this.pontuacaoRecompensa = pontuacaoRecompensa;
     }
 
-    public Long getResponsavelID() {
+    public User getResponsavelID() {
         return responsavelID;
     }
 
-    public void setResponsavelID(Long responsavelID) {
+    public void setResponsavelID(User responsavelID) {
         this.responsavelID = responsavelID;
     }
+
+    public Set<User> getCriancaId() {
+        return criancaId;
+    }
+
+    public void setCriancaId(Set<User> criancaId) {
+        this.criancaId = criancaId;
+    }
+
+
 }
