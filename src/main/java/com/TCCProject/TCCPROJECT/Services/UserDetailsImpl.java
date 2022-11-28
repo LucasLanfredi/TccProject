@@ -1,105 +1,146 @@
 package com.TCCProject.TCCPROJECT.Services;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.TCCProject.TCCPROJECT.Entities.User;
+import com.TCCProject.TCCPROJECT.Models.EUserType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class UserDetailsImpl implements UserDetails {
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    private final Long id;
+  private Long id;
 
-    private final String username;
+  private String username;
 
-    private final String email;
+  private String email;
 
-    @JsonIgnore
-    private final String password;
+  @JsonIgnore
+  private String password;
 
-    private final Collection<? extends GrantedAuthority> authorities;
+  private String firstName;
 
-    public UserDetailsImpl(Long id, String username, String email, String password,
-                           Collection<? extends GrantedAuthority> authorities) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.authorities = authorities;
-    }
+  private String lastName;
 
-    public static UserDetailsImpl build(User user) {
-        List<GrantedAuthority> authorities = user.getRoles().stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName().name()))
-                .collect(Collectors.toList());
+  private int pontuacaoUser;
 
-        return new UserDetailsImpl(
-                user.getId(),
-                user.getUsername(),
-                user.getEmail(),
-                user.getPassword(),
-                authorities);
-    }
+  private Date dataNascimento;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
-    }
+  private EUserType EUserType;
 
-    public Long getId() {
-        return id;
-    }
+  private Collection<? extends GrantedAuthority> authorities;
 
-    public String getEmail() {
-        return email;
-    }
+  public UserDetailsImpl(Long id, String firstName, String lastName, int pontuacaoUser, String username,
+                         String email, String password, Date dataNascimento, EUserType EUserType,
+                         Collection<? extends GrantedAuthority> authorities) {
+    this.id = id;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.pontuacaoUser = pontuacaoUser;
+    this.username = username;
+    this.email = email;
+    this.password = password;
+    this.dataNascimento = dataNascimento;
+    this.EUserType = EUserType;
+    this.authorities = authorities;
+  }
 
-    @Override
-    public String getPassword() {
-        return password;
-    }
+  public static UserDetailsImpl build(User user) {
+    List<GrantedAuthority> authorities = user.getRoles().stream()
+        .map(role -> new SimpleGrantedAuthority(role.getName().name()))
+        .collect(Collectors.toList());
 
-    @Override
-    public String getUsername() {
-        return username;
-    }
+    return new UserDetailsImpl(
+            user.getId(),
+            user.getFirstName(),
+            user.getLastName(),
+            user.getPontuacaoUser(),
+            user.getUsername(),
+            user.getEmail(),
+            user.getPassword(),
+            user.getDataNascimento(),
+            user.getEUserType(),
+            authorities);
+  }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return authorities;
+  }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+  @Override
+  public String getPassword() {
+    return password;
+  }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        UserDetailsImpl user = (UserDetailsImpl) o;
-        return Objects.equals(id, user.id);
-    }
+  @Override
+  public String getUsername() {
+    return username;
+  }
+
+  @Override
+  public boolean isAccountNonExpired() {
+    return true;
+  }
+
+  @Override
+  public boolean isAccountNonLocked() {
+    return true;
+  }
+
+  @Override
+  public boolean isCredentialsNonExpired() {
+    return true;
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return true;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
+    UserDetailsImpl user = (UserDetailsImpl) o;
+    return Objects.equals(id, user.id);
+  }
+
+  public String getFirstName() {
+    return firstName;
+  }
+
+  public String getLastName() {
+    return lastName;
+  }
+
+  public int getPontuacaoUser() {
+    return pontuacaoUser;
+  }
+
+  public Date getDataNascimento() {
+    return dataNascimento;
+  }
+
+  public EUserType getEUserType() {
+    return EUserType;
+  }
 }
-

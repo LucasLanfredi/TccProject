@@ -1,7 +1,5 @@
 package com.TCCProject.TCCPROJECT.Entities;
 
-import com.TCCProject.TCCPROJECT.Models.EStatusAtividade;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -39,19 +37,19 @@ public class Atividade {
 
     @JoinColumn(name= "fk_responsavel_id")
     @NotBlank
-    private Long responsavelID;
+    private Long responsavelId;
 
     public Atividade(){
     }
 
     public Atividade(String nomeAtividade, String descricaoAtividade, Date dataAtividade, int valorPontos, boolean necessarioValidar,
-                     Long responsavelID) {
+                     Long responsavelId) {
         this.nomeAtividade = nomeAtividade;
         this.descricaoAtividade = descricaoAtividade;
         this.dataAtividade = dataAtividade;
         this.valorPontos = valorPontos;
         this.necessarioValidar = necessarioValidar;
-        this.responsavelID = responsavelID;
+        this.responsavelId = responsavelId;
     }
 
     public long getId() {
@@ -102,11 +100,11 @@ public class Atividade {
         this.necessarioValidar = necessarioValidar;
     }
 
-    public Long getResponsavelID() {
-        return responsavelID;
+    public Long getResponsavelId() {
+        return responsavelId;
     }
 
-    public void setResponsavelID(Long responsavelID) {
-        this.responsavelID = responsavelID;
+    public void setResponsavelId(Long responsavelId) {
+        this.responsavelId = responsavelId;
     }
 }

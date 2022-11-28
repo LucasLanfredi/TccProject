@@ -1,7 +1,6 @@
 package com.TCCProject.TCCPROJECT.Entities;
 
 import com.TCCProject.TCCPROJECT.Models.ERole;
-import lombok.Data;
 
 import javax.persistence.*;
 

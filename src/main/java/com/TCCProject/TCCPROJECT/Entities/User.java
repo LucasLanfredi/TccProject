@@ -54,6 +54,7 @@ public class User {
     private int pontuacaoUser;
 
     @Size(max = 120)
+    @Column(name = "descricao")
     private String descricao;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -72,8 +73,8 @@ public class User {
         super();
     }
 
-    public User(String firstName, String lastName, int pontuacaoUser, String username, String password, Date dataNascimento,
-                EUserType EUserType) {
+    public User(String firstName, String lastName, int pontuacaoUser, String username, String password,
+                Date dataNascimento, EUserType EUserType) {
         super();
         this.firstName = firstName;
         this.lastName = lastName;

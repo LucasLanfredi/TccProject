@@ -2,7 +2,6 @@ package com.TCCProject.TCCPROJECT.DTO;
 
 import com.TCCProject.TCCPROJECT.Entities.User;
 import com.TCCProject.TCCPROJECT.Models.EStatusAtividade;
-import lombok.Data;
 
 import java.util.Date;
 import java.util.List;

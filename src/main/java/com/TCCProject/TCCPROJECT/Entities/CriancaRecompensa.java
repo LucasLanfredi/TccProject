@@ -1,7 +1,5 @@
 package com.TCCProject.TCCPROJECT.Entities;
 
-
-import com.TCCProject.TCCPROJECT.Models.EStatusAtividade;
 import com.TCCProject.TCCPROJECT.Models.EStatusRecompensa;
 
 import javax.persistence.*;
@@ -17,11 +15,11 @@ public class CriancaRecompensa {
 
     @NotBlank
     @Column(name = "fk_crianca_ID")
-    private Long criancaID;
+    private Long criancaId;
 
     @NotBlank
     @Column(name = "fk_recompensa_ID")
-    private Long recompensaID;
+    private Long recompensaId;
 
     @Enumerated(EnumType.STRING)
     @JoinColumn(name = "recompensa_status")
@@ -30,9 +28,9 @@ public class CriancaRecompensa {
     public CriancaRecompensa() {
     }
 
-    public CriancaRecompensa(Long criancaID, Long recompensaID, EStatusRecompensa statusRecompensa) {
-        this.criancaID = criancaID;
-        this.recompensaID = recompensaID;
+    public CriancaRecompensa(Long criancaId, Long recompensaId, EStatusRecompensa statusRecompensa) {
+        this.criancaId = criancaId;
+        this.recompensaId = recompensaId;
         this.statusRecompensa = statusRecompensa;
     }
 
@@ -44,20 +42,20 @@ public class CriancaRecompensa {
         this.id = id;
     }
 
-    public Long getCriancaID() {
-        return criancaID;
+    public Long getCriancaId() {
+        return criancaId;
     }
 
-    public void setCriancaID(Long criancaID) {
-        this.criancaID = criancaID;
+    public void setCriancaId(Long criancaId) {
+        this.criancaId = criancaId;
     }
 
-    public Long getRecompensaID() {
-        return recompensaID;
+    public Long getRecompensaId() {
+        return recompensaId;
     }
 
-    public void setRecompensaID(Long recompensaID) {
-        this.recompensaID = recompensaID;
+    public void setRecompensaId(Long recompensaId) {
+        this.recompensaId = recompensaId;
     }
 
     public EStatusRecompensa getStatusRecompensa() {

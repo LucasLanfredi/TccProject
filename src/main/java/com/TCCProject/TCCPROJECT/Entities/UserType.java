@@ -1,7 +1,6 @@
 package com.TCCProject.TCCPROJECT.Entities;
 
 import com.TCCProject.TCCPROJECT.Models.EUserType;
-import lombok.Data;
 
 import javax.persistence.*;
 
