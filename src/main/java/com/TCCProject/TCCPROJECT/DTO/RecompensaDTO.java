@@ -1,5 +1,8 @@
 package com.TCCProject.TCCPROJECT.DTO;
 
+import com.TCCProject.TCCPROJECT.Models.EStatusAtividade;
+import com.TCCProject.TCCPROJECT.Models.EStatusRecompensa;
+
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +17,6 @@ public class RecompensaDTO {
     private int pontuacaoRecompensa;
 
     private List<Long> criancas;
-
     public RecompensaDTO() {
     }
 
