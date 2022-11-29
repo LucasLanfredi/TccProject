@@ -51,7 +51,7 @@ public class AuthController {
   @Autowired
   JwtUtils jwtUtils;
 
-  private int valorInicial=0;
+  private final Integer valorInicial= Integer.valueOf(1);
 
   @PostMapping("/signin")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -75,7 +75,6 @@ public class AuthController {
             userDetails.getFirstName(),
             userDetails.getLastName(),
             userDetails.getPontuacaoUser(),
-            userDetails.getDataNascimento(),
             userDetails.getEUserType()));
   }
 
@@ -98,7 +97,6 @@ public class AuthController {
             signUpRequest.getUsername(),
             signUpRequest.getEmail(),
             encoder.encode(signUpRequest.getPassword()),
-            signUpRequest.getDataNascimento(),
             EUserType.USER_ADULTO);
 
     Set<String> strRoles = signUpRequest.getRole();
@@ -134,7 +132,7 @@ public class AuthController {
     user.setRoles(roles);
     userRepository.save(user);
 
-    return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    return ResponseEntity.ok(new MessageResponse("Adulto cadastrada com sucesso!"));
   }
 
   @PostMapping("/signup/crianca")
@@ -154,8 +152,8 @@ public class AuthController {
             signUpRequest.getLastName(),
             valorInicial,
             signUpRequest.getUsername(),
+            signUpRequest.getEmail(),
             encoder.encode(signUpRequest.getPassword()),
-            signUpRequest.getDataNascimento(),
             EUserType.USER_CRIANCA
             );
 
@@ -192,6 +190,6 @@ public class AuthController {
     user.setRoles(roles);
     userRepository.save(user);
 
-    return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    return ResponseEntity.ok(new MessageResponse("Crianca cadastrada com sucesso!"));
   }
 }

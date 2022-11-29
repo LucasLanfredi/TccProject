@@ -17,6 +17,7 @@ public class RecompensaDTO {
     private int pontuacaoRecompensa;
 
     private List<Long> criancas;
+
     public RecompensaDTO() {
     }
 

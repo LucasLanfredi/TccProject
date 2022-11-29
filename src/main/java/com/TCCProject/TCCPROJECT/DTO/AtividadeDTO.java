@@ -1,10 +1,8 @@
 package com.TCCProject.TCCPROJECT.DTO;
 
-import com.TCCProject.TCCPROJECT.Entities.User;
-import com.TCCProject.TCCPROJECT.Models.EStatusAtividade;
-
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public class AtividadeDTO {
 
@@ -16,13 +14,13 @@ public class AtividadeDTO {
 
     private Date dataAtividade;
 
-    private int valorPontos;
+    private Integer valorPontos;
 
-    private boolean necessarioValidar;
-
-    private EStatusAtividade statusAtividade;
+    private Set<String> statusAtividade;
 
     private List<Long> criancas;
+
+    private Long responsavelId;
 
     public AtividadeDTO() {
     }
@@ -59,27 +57,38 @@ public class AtividadeDTO {
         this.dataAtividade = dataAtividade;
     }
 
-    public int getValorPontos() {
-        return valorPontos;
+
+    public Set<String> getStatusAtividade() {
+        return statusAtividade;
+    }
+
+    public void setStatusAtividade(Set<String> statusAtividade) {
+        this.statusAtividade = statusAtividade;
     }
 
     public void setValorPontos(int valorPontos) {
         this.valorPontos = valorPontos;
     }
 
-    public boolean isNecessarioValidar() {
-        return necessarioValidar;
+    public Integer getValorPontos() {
+        return valorPontos;
     }
 
-    public void setNecessarioValidar(boolean necessarioValidar) {
-        this.necessarioValidar = necessarioValidar;
+    public void setValorPontos(Integer valorPontos) {
+        this.valorPontos = valorPontos;
+    }
+
+    public Long getResponsavelId() {
+        return responsavelId;
+    }
+
+    public void setResponsavelId(Long responsavelId) {
+        this.responsavelId = responsavelId;
     }
 
     public List<Long> getCriancas() {
         return criancas;
     }
-
-s
 
     public void setCriancas(List<Long> criancas) {
         this.criancas = criancas;

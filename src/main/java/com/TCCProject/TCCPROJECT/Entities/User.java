@@ -2,9 +2,7 @@ package com.TCCProject.TCCPROJECT.Entities;
 
 import com.TCCProject.TCCPROJECT.Models.EUserType;
 
-import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -45,13 +43,8 @@ public class User {
     @Size(max = 120)
     private String password;
 
-    @NotBlank
-    @Column(name = "data_nascimento")
-    private Date dataNascimento;
-
-    @NotBlank
     @Column(name = "pontuacao_user")
-    private int pontuacaoUser;
+    private Integer pontuacaoUser;
 
     @Size(max = 120)
     @Column(name = "descricao")
@@ -73,20 +66,8 @@ public class User {
         super();
     }
 
-    public User(String firstName, String lastName, int pontuacaoUser, String username, String password,
-                Date dataNascimento, EUserType EUserType) {
-        super();
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.pontuacaoUser = pontuacaoUser;
-        this.username = username;
-        this.password = password;
-        this.dataNascimento = dataNascimento;
-        this.EUserType = EUserType;
-    }
-
-    public User(String firstName, String lastName, int pontuacaoUser, String username, String email, String password,
-                Date dataNascimento, EUserType EUserType) {
+    public User(String firstName, String lastName, Integer pontuacaoUser, String username, String email, String password,
+                EUserType EUserType) {
         super();
         this.firstName = firstName;
         this.lastName = lastName;
@@ -94,7 +75,6 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.dataNascimento = dataNascimento;
         this.EUserType = EUserType;
     }
 
@@ -146,14 +126,6 @@ public class User {
         this.password = password;
     }
 
-    public Date getDataNascimento() {
-        return dataNascimento;
-    }
-
-    public void setDataNascimento(Date dataNascimento) {
-        this.dataNascimento = dataNascimento;
-    }
-
     public String getDescricao() {
         return descricao;
     }
@@ -178,11 +150,11 @@ public class User {
         this.EUserType = EUserType;
     }
 
-    public int getPontuacaoUser() {
+    public Integer getPontuacaoUser() {
         return pontuacaoUser;
     }
 
-    public void setPontuacaoUser(int pontuacaoUser) {
+    public void setPontuacaoUser(Integer pontuacaoUser) {
         this.pontuacaoUser = pontuacaoUser;
     }
 

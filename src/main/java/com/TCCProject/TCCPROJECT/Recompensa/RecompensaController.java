@@ -66,49 +66,8 @@ public class RecompensaController {
 
         return ResponseEntity.ok(new MessageResponse("Recompensa excluida com sucesso"));
     }
-    @PostMapping(name = "/editarRecompensa")
-    public ResponseEntity<?> editarRecompensa(@NotNull UserDTO userDTO, @NotNull RecompensaDTO recompensaDTO){
-        userRepository.findByUsername(userDTO.getUsername())
-                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + userDTO.getUsername()));
 
-<<<<<<< HEAD:src/main/java/com/TCCProject/TCCPROJECT/Recompensa/RecompensaController.java
     @GetMapping("/listarCrianca")
-=======
-        Recompensa recompensaEditada = recompensaRepository.findById(recompensaDTO.getId())
-                .orElseThrow(() -> new ArrayStoreException("Nao foi encontrada recompensas"));
-
-        recompensaEditada.setNomeRecompensa(recompensaDTO.getNomeRecompensa());
-        recompensaEditada.setDescricaoRecompensa(recompensaDTO.getDescricaoRecompensa());
-        recompensaEditada.setPontuacaoRecompensa(recompensaDTO.getPontuacaoRecompensa());
-
-        for (Long criancaID: recompensaDTO.getCriancas()) {
-            criancaRecompensaRepository.updateStatusByCriancaAndRecompensaId(CriancaRecompensa.getStatusRecompensa().toString(),
-                    criancaID, recompensaEditada.getId());
-        }
-
-        recompensaRepository.save(recompensaEditada);
-
-        return ResponseEntity.ok(new MessageResponse("Recompensa editada com sucesso"));
-    }
-
-    @PostMapping(name = "/resgatarRecompensa")
-    public ResponseEntity<?> resgatarRecompensa(@NotNull UserDTO userDTO, @NotNull RecompensaDTO recompensaDTO){
-        User user = userRepository.findByUsername(userDTO.getUsername())
-                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + userDTO.getUsername()));
-
-        Recompensa recompensaResgatada = recompensaRepository.findById(recompensaDTO.getId())
-                .orElseThrow(() -> new RuntimeException("Nao foi possivel encontrar a recompensa"));
-
-        criancaRecompensaRepository.updateStatusByCriancaAndRecompensaId(EStatusRecompensa.RESGATADA.toString(),recompensaResgatada.getId(),
-                user.getId());
-
-        user.setNewPontuacaoUser(recompensaResgatada);
-        userRepository.save(user);
-
-        return ResponseEntity.ok(new MessageResponse("Parabens, aproveite sua recompensa, voce merece"));
-    }
-    @GetMapping(name = "/listarCrianca")
->>>>>>> ab968cc2c674c6b5eb8f94200d294f7766258897:src/main/java/com/TCCProject/TCCPROJECT/Controller/RecompensaController.java
     public ResponseEntity<List<Recompensa>> listarRecompensasCrianca(@NotNull UserDTO userDTO){
         User user = userRepository.findByUsername(userDTO.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + userDTO.getUsername()));

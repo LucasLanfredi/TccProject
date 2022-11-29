@@ -17,16 +17,13 @@ public class JwtResponse {
 
   private final String lastName;
 
-  private final int pontuacaoUser;
-
-  private final Date dataNascimento;
+  private final Integer pontuacaoUser;
 
   private final EUserType EUserType;
 
 
   public JwtResponse(String accessToken, Long id, String username, String email, List<String> roles ,
-                     String firstName, String lastName, int pontuacaoUser,
-                     Date dataNascimento, EUserType EUserType) {
+                     String firstName, String lastName, Integer pontuacaoUser, EUserType EUserType) {
     this.token = accessToken;
     this.id = id;
     this.username = username;
@@ -35,7 +32,6 @@ public class JwtResponse {
     this.firstName = firstName;
     this.lastName = lastName;
     this.pontuacaoUser = pontuacaoUser;
-    this.dataNascimento = dataNascimento;
     this.EUserType = EUserType;
   }
 
@@ -111,12 +107,8 @@ public class JwtResponse {
     return lastName;
   }
 
-  public int getPontuacaoUser() {
+  public Integer getPontuacaoUser() {
     return pontuacaoUser;
-  }
-
-  public Date getDataNascimento() {
-    return dataNascimento;
   }
 
   public com.TCCProject.TCCPROJECT.Models.EUserType getEUserType() {

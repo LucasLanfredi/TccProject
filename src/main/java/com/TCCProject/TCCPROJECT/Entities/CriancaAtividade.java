@@ -13,11 +13,9 @@ public class CriancaAtividade {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @NotBlank
     @Column(name = "fk_crianca_ID")
     private Long criancaId;
 
-    @NotBlank
     @Column(name = "fk_atividade_ID")
     private Long atividadeId;
 

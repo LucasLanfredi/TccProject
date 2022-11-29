@@ -30,16 +30,14 @@ public class UserDetailsImpl implements UserDetails {
 
   private String lastName;
 
-  private int pontuacaoUser;
-
-  private Date dataNascimento;
+  private Integer pontuacaoUser;
 
   private EUserType EUserType;
 
   private Collection<? extends GrantedAuthority> authorities;
 
-  public UserDetailsImpl(Long id, String firstName, String lastName, int pontuacaoUser, String username,
-                         String email, String password, Date dataNascimento, EUserType EUserType,
+  public UserDetailsImpl(Long id, String firstName, String lastName, Integer pontuacaoUser, String username,
+                         String email, String password, EUserType EUserType,
                          Collection<? extends GrantedAuthority> authorities) {
     this.id = id;
     this.firstName = firstName;
@@ -48,7 +46,6 @@ public class UserDetailsImpl implements UserDetails {
     this.username = username;
     this.email = email;
     this.password = password;
-    this.dataNascimento = dataNascimento;
     this.EUserType = EUserType;
     this.authorities = authorities;
   }
@@ -66,7 +63,6 @@ public class UserDetailsImpl implements UserDetails {
             user.getUsername(),
             user.getEmail(),
             user.getPassword(),
-            user.getDataNascimento(),
             user.getEUserType(),
             authorities);
   }
@@ -132,12 +128,8 @@ public class UserDetailsImpl implements UserDetails {
     return lastName;
   }
 
-  public int getPontuacaoUser() {
+  public Integer getPontuacaoUser() {
     return pontuacaoUser;
-  }
-
-  public Date getDataNascimento() {
-    return dataNascimento;
   }
 
   public EUserType getEUserType() {

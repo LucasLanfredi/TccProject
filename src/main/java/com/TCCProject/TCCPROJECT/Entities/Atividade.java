@@ -13,30 +13,24 @@ public class Atividade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotBlank
     @Size(max = 80)
     @Column(name = "nome_atividade")
     private String nomeAtividade;
 
-    @NotBlank
     @Size(max = 240)
     @Column(name = "descricao_atividade")
     private String descricaoAtividade;
 
-    @NotBlank
     @Column(name = "data_atividade")
     private Date dataAtividade;
 
-    @NotBlank
     @Column(name = "valor_pontos")
-    private int valorPontos;
+    private Integer valorPontos;
 
-    @NotBlank
     @Column(name = "necessario_validar")
     private boolean necessarioValidar;
 
     @JoinColumn(name= "fk_responsavel_id")
-    @NotBlank
     private Long responsavelId;
 
     public Atividade(){
@@ -84,11 +78,11 @@ public class Atividade {
         this.dataAtividade = dataAtividade;
     }
 
-    public int getValorPontos() {
+    public Integer getValorPontos() {
         return valorPontos;
     }
 
-    public void setValorPontos(int valorPontos) {
+    public void setValorPontos(Integer valorPontos) {
         this.valorPontos = valorPontos;
     }
 
