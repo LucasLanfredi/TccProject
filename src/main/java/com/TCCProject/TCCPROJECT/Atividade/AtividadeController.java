@@ -2,7 +2,6 @@ package com.TCCProject.TCCPROJECT.Atividade;
 
 import com.TCCProject.TCCPROJECT.Config.MessageResponse;
 import com.TCCProject.TCCPROJECT.DTO.AtividadeDTO;
-import com.TCCProject.TCCPROJECT.DTO.UserDTO;
 import com.TCCProject.TCCPROJECT.Entities.Atividade;
 import com.TCCProject.TCCPROJECT.Entities.CriancaAtividade;
 import com.TCCProject.TCCPROJECT.Entities.User;
@@ -18,7 +17,6 @@ import javax.validation.constraints.NotNull;
 
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 import static com.TCCProject.TCCPROJECT.Models.EStatusAtividade.ATIVA;
@@ -58,32 +56,23 @@ public class AtividadeController {
         return ResponseEntity.ok(new MessageResponse("Atividade cadastrada com sucesso"));
     }
 
-    @PostMapping("/deletarAtividade")
-    public ResponseEntity<?> deletarAtividade (@NotNull AtividadeDTO atividadeDTO){
-        userRepository.findById(atividadeDTO.getResponsavelId())
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario Responsavel nao Encontrado, ID: " + atividadeDTO.getResponsavelId()));
+    @PostMapping("/deletarAtividade/{id}")
+    public ResponseEntity<?> deletarAtividade (@NotNull @PathVariable Long id){
+        Atividade atividadeExcluida = atividadesRepository.findById(id)
+                .orElseThrow(() -> new ArrayStoreException("Nao foi encontrada a atividade: " + id));
 
-        Atividade atividadeExcluida = atividadesRepository.findById(atividadeDTO.getId())
-                .orElseThrow(() -> new ArrayStoreException("Nao foi encontrada a atividade: " + atividadeDTO.getNomeAtividade()));
-
-        List<Long> listaDeAtividades = criancaAtividadeRepository.findByAtividadeId(atividadeExcluida.getId())
-                .orElseThrow(() -> new ArrayStoreException("Nao foi encontrada a atividade: " + atividadeDTO.getNomeAtividade()));
-
-        for(Long criancaAtividadeID : listaDeAtividades){
-            criancaAtividadeRepository.deleteById(criancaAtividadeID);
-        }
-
-        atividadesRepository.deleteById(atividadeDTO.getId());
+        criancaAtividadeRepository.deleteByAtividadeId(atividadeExcluida.getId());
+        atividadesRepository.deleteById(id);
 
         return ResponseEntity.ok(new MessageResponse("Atividade excluida com sucesso"));
     }
 
-    @PostMapping("/editaratividade")
-    public ResponseEntity<?> editarAtividade(@NotNull AtividadeDTO atividadeDTO){
+    @PostMapping("/editaratividade/{id}")
+    public ResponseEntity<?> editarAtividade(@Valid @RequestBody AtividadeDTO atividadeDTO, @NotNull @PathVariable Long id){
         userRepository.findById(atividadeDTO.getResponsavelId())
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario nao encontrado, ID : " + atividadeDTO.getResponsavelId()));
 
-        Atividade atividadeEditada = atividadesRepository.findById(atividadeDTO.getId())
+        Atividade atividadeEditada = atividadesRepository.findById(id)
                 .orElseThrow(() -> new ArrayStoreException("Nao foi encontrada atividades"));
 
         atividadeEditada.setNomeAtividade(atividadeDTO.getNomeAtividade());
@@ -92,22 +81,14 @@ public class AtividadeController {
         atividadeEditada.setNecessarioValidar(false);
         atividadeEditada.setValorPontos(atividadeDTO.getValorPontos());
 
-        for (Long criancaID: atividadeDTO.getCriancas()) {
-            criancaAtividadeRepository.updateStatusByCriancaAndAtividadeId(atividadeDTO.getStatusAtividade().toString(),
-                    criancaID, atividadeEditada.getId());
-        }
 
         atividadesRepository.save(atividadeEditada);
-
         return ResponseEntity.ok(new MessageResponse("Atividade editada com sucesso"));
     }
 
-    @GetMapping("/listarCrianca")
-    public ResponseEntity<List<Atividade>> listarAtividadesCrianca(@NotNull UserDTO userDTO){
-        User user = userRepository.findByUsername(userDTO.getUsername())
-                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + userDTO.getUsername()));
-
-        List<Long> listaAtividadesIDs = criancaAtividadeRepository.findByCriancaId(user.getId())
+    @GetMapping("/listarAtividadesCrianca/{id}")
+    public ResponseEntity<List<Atividade>> listarAtividadesCrianca(@NotNull @PathVariable Long id){
+        List<Long> listaAtividadesIDs = criancaAtividadeRepository.findAtividadeIdByCriancaId(id)
                 .orElseThrow(() -> new ArrayStoreException("Nao foi encontrada atividades"));
 
         List<Atividade> listaAtividades = new ArrayList<>();
@@ -120,10 +101,10 @@ public class AtividadeController {
         return ResponseEntity.ok(listaAtividades);
     }
 
-    @GetMapping("/listarAdulto")
-    public ResponseEntity<List<Atividade>> listarAtividadesAdulto(@NotNull UserDTO userDTO){
-        User user = userRepository.findByUsername(userDTO.getUsername())
-                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + userDTO.getUsername()));
+    @GetMapping("/listarAtividadesAdultos/{id}")
+    public ResponseEntity<List<Atividade>> listarAtividadesAdulto(@NotNull @PathVariable Long id){
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + id));
 
         List<Atividade> listaAtividadesAdulto = atividadesRepository.findByResponsavelId(user.getId())
                 .orElseThrow(() -> new ArrayStoreException("Nao foi encontrada atividades"));
@@ -131,12 +112,12 @@ public class AtividadeController {
         return ResponseEntity.ok(listaAtividadesAdulto);
     }
 
-    @PostMapping("/realizarAtividade")
-    public ResponseEntity<?> realizarAtividade(@NotNull UserDTO userDTO, @NotNull AtividadeDTO atividadeDTO){
-        User user = userRepository.findByUsername(userDTO.getUsername())
-                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + userDTO.getUsername()));
+    @PostMapping("/realizarAtividade/{criancaId}/{id}")
+    public ResponseEntity<?> realizarAtividade(@NotNull @PathVariable Long criancaId,  @NotNull @PathVariable Long id){
+        User user = userRepository.findById(criancaId)
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + criancaId));
 
-        Atividade atividadeRealizada = atividadesRepository.findById(atividadeDTO.getId())
+        Atividade atividadeRealizada = atividadesRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Nao foi possivel encontrar a atividade"));
 
         criancaAtividadeRepository.updateStatusByCriancaAndAtividadeId(EStatusAtividade.REALIZADA.toString(),atividadeRealizada.getId(),
@@ -146,5 +127,22 @@ public class AtividadeController {
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("Parabens, tarefa foi concluida"));
+    }
+
+    @PostMapping("/reativarAtividades/{criancaId}/{id}")
+    public ResponseEntity<?> reativarAtividades(@NotNull @PathVariable Long criancaId,  @NotNull @PathVariable Long id){
+        User user = userRepository.findById(criancaId)
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + criancaId));
+
+        Atividade atividadeRealizada = atividadesRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Nao foi possivel encontrar a atividade"));
+
+        criancaAtividadeRepository.updateStatusByCriancaAndAtividadeId(EStatusAtividade.ATIVA.toString(),atividadeRealizada.getId(),
+                user.getId());
+
+        user.setNewPontuacaoUser(atividadeRealizada);
+        userRepository.save(user);
+
+        return ResponseEntity.ok(new MessageResponse("Tarefa foi reativa"));
     }
 }

@@ -20,7 +20,7 @@ public class CriancaAtividade {
     private Long atividadeId;
 
     @Enumerated(EnumType.STRING)
-    @JoinColumn(name = "atividade_status")
+    @JoinColumn(name = "status_atividade")
     private EStatusAtividade statusAtividade;
 
     public CriancaAtividade() {

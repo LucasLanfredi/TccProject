@@ -12,19 +12,17 @@ import java.util.Optional;
 
 interface CriancaAtividadeRepository extends JpaRepository<CriancaAtividade, Long> {
 
-    Optional<List<Long>> findByCriancaId(Long criancaID);
+    @Query(value = "SELECT fk_atividade_id FROM crianca_atividade WHERE fk_crianca_id = :criancaId", nativeQuery = true)
+    Optional<List<Long>> findAtividadeIdByCriancaId(@Param("criancaId") Long criancaId);
 
-    Optional<List<Long>> findByAtividadeId(Long atividadeID);
-
-//    @Query("FROM crianca_atividade WHERE fk_atividade_id = ?1 AND fk_usuario_id = ?2")
-//    List<CriancaAtividade> findAllByAtividadeID(long atividadeID, Long criancaID);
-//
     @Transactional
     @Modifying
     @Query(value = "UPDATE crianca_atividade " +
-            "SET atividade_status = :status " +
+            "SET status_atividade = :status " +
             "WHERE fk_atividade_id = :atividadeId AND fk_crianca_id = :criancaId", nativeQuery = true)
     void updateStatusByCriancaAndAtividadeId(@Param("status") String status, @Param("atividadeId") Long atividadeId,
                                              @Param("criancaId") Long criancaId);
-
+    @Transactional
+    @Modifying
+    void deleteByAtividadeId(Long atividadeId);
 }

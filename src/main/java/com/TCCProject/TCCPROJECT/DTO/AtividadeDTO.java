@@ -6,8 +6,6 @@ import java.util.Set;
 
 public class AtividadeDTO {
 
-    private Long id;
-
     private String nomeAtividade;
 
     private String descricaoAtividade;
@@ -23,14 +21,6 @@ public class AtividadeDTO {
     private Long responsavelId;
 
     public AtividadeDTO() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getNomeAtividade() {
