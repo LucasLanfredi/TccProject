@@ -17,24 +17,20 @@ public class Recompensa {
     @Column(name = "nome_recompensa")
     private String nomeRecompensa;
 
-    @NotBlank
     @Size(max = 240)
     @Column(name = "descricao_recompensa")
     private String descricaoRecompensa;
 
-    @NotBlank
-    @Size(max = 240)
     @Column(name = "pontuacao_recompensa")
-    private int pontuacaoRecompensa;
+    private Integer pontuacaoRecompensa;
 
     @JoinColumn(name= "fk_responsavel_id")
-    @NotBlank
     private Long responsavelId;
 
     public Recompensa(){
     }
 
-    public Recompensa(String nomeRecompensa, String descricaoRecompensa, int pontuacaoRecompensa,
+    public Recompensa(String nomeRecompensa, String descricaoRecompensa, Integer pontuacaoRecompensa,
                       Long responsavelId) {
         this.nomeRecompensa = nomeRecompensa;
         this.descricaoRecompensa = descricaoRecompensa;
@@ -66,11 +62,11 @@ public class Recompensa {
         this.descricaoRecompensa = descricaoRecompensa;
     }
 
-    public int getPontuacaoRecompensa() {
+    public Integer getPontuacaoRecompensa() {
         return pontuacaoRecompensa;
     }
 
-    public void setPontuacaoRecompensa(int pontuacaoRecompensa) {
+    public void setPontuacaoRecompensa(Integer pontuacaoRecompensa) {
         this.pontuacaoRecompensa = pontuacaoRecompensa;
     }
 

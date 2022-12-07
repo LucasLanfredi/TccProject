@@ -13,11 +13,9 @@ public class CriancaRecompensa {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @NotBlank
     @Column(name = "fk_crianca_ID")
     private Long criancaId;
 
-    @NotBlank
     @Column(name = "fk_recompensa_ID")
     private Long recompensaId;
 

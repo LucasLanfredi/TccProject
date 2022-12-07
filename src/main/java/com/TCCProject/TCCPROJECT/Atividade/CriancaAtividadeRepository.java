@@ -12,7 +12,8 @@ import java.util.Optional;
 
 interface CriancaAtividadeRepository extends JpaRepository<CriancaAtividade, Long> {
 
-    @Query(value = "SELECT fk_atividade_id FROM crianca_atividade WHERE fk_crianca_id = :criancaId", nativeQuery = true)
+
+    @Query(value = "SELECT fk_atividade_id FROM crianca_atividade WHERE fk_crianca_id = :criancaId AND status_atividade = 'ATIVA'", nativeQuery = true)
     Optional<List<Long>> findAtividadeIdByCriancaId(@Param("criancaId") Long criancaId);
 
     @Transactional
