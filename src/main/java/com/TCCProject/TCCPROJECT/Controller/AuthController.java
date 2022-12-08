@@ -51,7 +51,7 @@ public class AuthController {
   @Autowired
   JwtUtils jwtUtils;
 
-  private final Integer valorInicial= Integer.valueOf(1);
+  private final Integer valorInicial= Integer.valueOf(0);
 
   @PostMapping("/signin")
   public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
